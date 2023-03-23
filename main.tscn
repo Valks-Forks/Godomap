@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://cgnny63o44sky"]
+
+[ext_resource type="PackedScene" uid="uid://dabpxrew73gwq" path="res://Camera/Gimbal.tscn" id="1_as2gj"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ytjkb"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Gimbal" parent="." instance=ExtResource("1_as2gj")]
+transform = Transform3D(1, 0, 0, 0, 0.732174, 0.681117, 0, -0.681117, 0.732174, 0, 0, 0)
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+mesh = SubResource("PlaneMesh_ytjkb")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.960376, 0.0198201, 0.278001, -0.278706, 0.0682967, 0.957945, 0, -0.997468, 0.0711145, 1.43684, 4.93739, 0)
