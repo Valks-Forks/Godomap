@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://bnag552h36qmg"]
+
+[ext_resource type="Script" path="res://Polygon.cs" id="1_l8dro"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_pmpbk"]
+
+[node name="Polygon" type="MeshInstance3D"]
+mesh = SubResource("ArrayMesh_pmpbk")
+script = ExtResource("1_l8dro")

@@ -1,0 +1,32 @@
+{
+    "type": "FeatureCollection",
+    "name": "france",
+    "crs": {
+        "type": "name",
+        "properties": {
+            "name": "urn:ogc:def:crs:EPSG::2154"
+        }
+    },
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "ID": "REGION_FXX_0000000000001",
+                "NOM_M": "ILE-DE-FRANCE",
+                "NOM": "Île-de-France",
+                "INSEE_REG": "11"
+            },
+            "geometry": {
+                "type": "MultiPolygon",
+                "coordinates": [
+                    [
+                        [
+                            [10.0, 10.0], [11.0, 10.0], [11.0, 11.0],
+                            [10.0, 11.0], [10.0, 10.0]
+                        ]
+                    ]
+                ]
+            }
+        }
+    ]
+}
