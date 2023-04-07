@@ -125,7 +125,7 @@ public partial class Polygon : MeshInstance3D
 		var innerRingIndices = new int[nbInnerRings];
 		var outerRingVertices = polygon.OuterRing.Vertices;
 		var nbOuterRingVertices = outerRingVertices.Count();
-		for (var j = 0; j < nbOuterRingVertices - 1; j++) {
+		for (var j = 0; j < nbOuterRingVertices; j++) {
 			var outerRingVertex = outerRingVertices[j];
 			vertices.Add(outerRingVertex.X);
 			vertices.Add(outerRingVertex.Y);
@@ -135,7 +135,7 @@ public partial class Polygon : MeshInstance3D
 			innerRingIndices[j] = innerRingCurrentIndex;
 			var innerRingVertices = innerRings[j].Vertices;
 			var nbInnerRingVertices = innerRingVertices.Count();
-			for (var k = 0; k < nbInnerRingVertices - 1; k++) {
+			for (var k = 0; k < nbInnerRingVertices; k++) {
 				var innerRingVertex = innerRingVertices[k];
 				vertices.Add(innerRingVertex.X);
 				vertices.Add(innerRingVertex.Y);
@@ -144,11 +144,8 @@ public partial class Polygon : MeshInstance3D
 		}
 
 		var connectivity = EarcutNet.Earcut.Tessellate(vertices, innerRingIndices);
-		for (var i = 0; i < connectivity.Count() / 3; i++) {
-			var vertexBeginIndex = i*2;
-			res.Add(new Vector3((float) vertices[vertexBeginIndex], 0, (float) vertices[vertexBeginIndex+1]));
-			res.Add(new Vector3((float) vertices[vertexBeginIndex+2], 0, (float) vertices[vertexBeginIndex+3]));
-			res.Add(new Vector3((float) vertices[vertexBeginIndex+4], 0, (float) vertices[vertexBeginIndex+5]));
+		for (var i = 0; i < connectivity.Count(); i++) {
+			res.Add(new Vector3((float) vertices[(connectivity[i]*2)+1], 0, (float) vertices[connectivity[i]*2]));
 		}
 		return res.ToArray();
 	}
@@ -169,26 +166,27 @@ public partial class Polygon : MeshInstance3D
 		};
 		var deserializedMultipolygon = JsonSerializer.Deserialize<GeojsonParser.FeatureCollection<GeojsonParser.MultiPolygon>>(text, options);
 
-		var tesselation = Tesselate(deserializedMultipolygon.Features[0].Geometry);
-
-		// Define the vertices of the triangle
-		var vertices = tesselation;
-		var normals = tesselation.Select(el => new Vector3(0, 1, 0)).ToArray();
+		var vertices = new List<Vector3>();
+		var normals = new List<Vector3>();
+		foreach (var feature in deserializedMultipolygon.Features) {
+			var geom = feature.Geometry;
+			var tesselation = Tesselate(geom);
+			vertices.AddRange(tesselation);
+			normals.AddRange(tesselation.Select(el => new Vector3(0, 1, 0)));
+		}
 
 		// Create a new ArrayMesh and add the triangle surface to it
 		var mesh = new ArrayMesh();
+
 		var arrays = new Godot.Collections.Array();
 		arrays.Resize((int) ArrayMesh.ArrayType.Max);
-		arrays[(int)ArrayMesh.ArrayType.Vertex] = vertices;
-		arrays[(int)ArrayMesh.ArrayType.Normal] = normals;
+		arrays[(int)ArrayMesh.ArrayType.Vertex] = vertices.ToArray();
+		arrays[(int)ArrayMesh.ArrayType.Normal] = normals.ToArray();
 
 		mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
-
+		GD.Print(mesh.GetAabb());
+		
 		// Set the mesh of this MeshInstance to the triangle mesh
-		var cilinder = new CylinderMesh();
-		cilinder.Height = 2;
-		cilinder.TopRadius = 3f;
-		cilinder.BottomRadius = 3f;
 		this.Mesh = mesh;
 	}
 

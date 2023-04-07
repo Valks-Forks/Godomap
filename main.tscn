@@ -1,10 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://cgnny63o44sky"]
+[gd_scene load_steps=6 format=3 uid="uid://cgnny63o44sky"]
 
 [ext_resource type="PackedScene" uid="uid://dabpxrew73gwq" path="res://Camera/Gimbal.tscn" id="1_as2gj"]
 [ext_resource type="Script" path="res://main.cs" id="1_v7abx"]
 [ext_resource type="PackedScene" uid="uid://bnag552h36qmg" path="res://Polygon.tscn" id="2_mrub0"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ytjkb"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_rye7r"]
 
 [node name="MainScene" type="Node3D"]
 script = ExtResource("1_v7abx")
@@ -14,11 +16,15 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.372833, 0)
-visible = false
+flip_faces = true
 mesh = SubResource("PlaneMesh_ytjkb")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.98136, 0.0136667, 0.191693, -0.192179, 0.0697889, 0.978875, -2.66392e-09, -0.997468, 0.0711145, 0.763666, 5.52138, 0)
+transform = Transform3D(-0.968073, 0.0178261, 0.250033, 0.250642, 0.054562, 0.966541, 0.00358738, 0.998351, -0.057288, 0.763666, 11.6592, 0)
 
 [node name="Polygon" parent="." instance=ExtResource("2_mrub0")]
 mesh = null
+
+[node name="CSGMesh3D2" type="CSGMesh3D" parent="."]
+flip_faces = true
+mesh = SubResource("ArrayMesh_rye7r")
