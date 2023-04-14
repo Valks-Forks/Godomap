@@ -145,7 +145,7 @@ public partial class Polygon : MeshInstance3D
 
 		var connectivity = EarcutNet.Earcut.Tessellate(vertices, innerRingIndices);
 		for (var i = 0; i < connectivity.Count(); i++) {
-			res.Add(new Vector3((float) vertices[(connectivity[i]*2)+1], 0, (float) vertices[connectivity[i]*2]));
+			res.Insert(0, new Vector3((float) vertices[(connectivity[i]*2+1)], 0, (float) vertices[connectivity[i]*2]));
 		}
 		return res.ToArray();
 	}
@@ -157,7 +157,7 @@ public partial class Polygon : MeshInstance3D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		using var file = FileAccess.Open("res://Data/simple.geojson", FileAccess.ModeFlags.Read);
+		using var file = FileAccess.Open("res://Data/france.geojson", FileAccess.ModeFlags.Read);
 		string text = file.GetAsText();
 		var options = new JsonSerializerOptions
 		{

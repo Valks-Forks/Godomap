@@ -8,8 +8,8 @@ extends Node3D
 @export var zoom_speed = 0.16
 var zoom = 1
 
-@export var speed = 0.0001
-@export var drag_speed = 0.0050
+@export var speed = 0.1
+@export var drag_speed = 600
 @export var acceleration = 0.16
 @export var mouse_sensitivity = 0.005
 
@@ -18,7 +18,7 @@ var move = Vector3()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	fit_to_grounds_bounds(Rect2(Vector2(10, 10), Vector2(1, 1)), 0.1)
+	fit_to_grounds_bounds(Rect2(Vector2(6046592, 99040), Vector2(1063887, 1143400)), 0.1)
 	pass
 
 func _input(event):
@@ -26,25 +26,29 @@ func _input(event):
 		if event is InputEventMouseMotion:
 			if event.relative.x != 0:
 				rotate(Vector3.UP, -event.relative.x * mouse_sensitivity)
-			if event is InputEventMouseMotion:
-				if event.relative.y != 0:
-					print("y")
-					rotate(Vector3.UP, -event.relative.y * mouse_sensitivity)
+		if event is InputEventMouseMotion:
+			if event.relative.y != 0:
+				rotate_object_local(Vector3.RIGHT, -event.relative.y * mouse_sensitivity)
 	if Input.is_action_pressed("move_cam"):
 		if event is InputEventMouseMotion:
 			move.x -= event.relative.x * drag_speed
 			move.z -= event.relative.y * drag_speed
 
+	var previous_zoom = zoom
+	var previous_zoom_speed = zoom_speed
 	if event.is_action_pressed("zoom_in"):
 		zoom -= zoom_speed
 	if event.is_action_pressed("zoom_out"):
 		zoom += zoom_speed
-	zoom = clamp(zoom, min_zoom, max_zoom)
-
+	# zoom = clamp(zoom, min_zoom, max_zoom)
+	zoom_speed = zoom * previous_zoom_speed / previous_zoom
+	print(zoom_speed)
 
 func _process(delta):
 	#zoom camera
 	scale = lerp(scale, Vector3.ONE * zoom, zoom_speed)
+	if (Vector3.ONE * zoom != scale):
+		print(scale, ' ', Vector3.ONE * zoom)
 	#clamp rotation
 	# innergimbal.rotation.x = clamp(innergimbal.rotation.x, -1.1, 0.3)
 	#move camera
