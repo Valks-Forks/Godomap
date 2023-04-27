@@ -6,6 +6,7 @@ extends Node3D
 @export var max_zoom = 10000.0
 @export var min_zoom = 0.001
 @export var zoom_speed = 0.16
+var zoom_offset = 0.16
 var zoom = 1
 
 @export var speed = 0.1
@@ -35,20 +36,19 @@ func _input(event):
 			move.z -= event.relative.y * drag_speed
 
 	var previous_zoom = zoom
-	var previous_zoom_speed = zoom_speed
+	var previous_zoom_offset = zoom_offset
 	if event.is_action_pressed("zoom_in"):
-		zoom -= zoom_speed
+		zoom -= zoom_offset
+		zoom_offset = zoom * previous_zoom_offset / previous_zoom
 	if event.is_action_pressed("zoom_out"):
-		zoom += zoom_speed
+		zoom += zoom_offset
+		zoom_offset = zoom * previous_zoom_offset / previous_zoom
+
 	# zoom = clamp(zoom, min_zoom, max_zoom)
-	zoom_speed = zoom * previous_zoom_speed / previous_zoom
-	print(zoom_speed)
 
 func _process(delta):
 	#zoom camera
 	scale = lerp(scale, Vector3.ONE * zoom, zoom_speed)
-	if (Vector3.ONE * zoom != scale):
-		print(scale, ' ', Vector3.ONE * zoom)
 	#clamp rotation
 	# innergimbal.rotation.x = clamp(innergimbal.rotation.x, -1.1, 0.3)
 	#move camera
