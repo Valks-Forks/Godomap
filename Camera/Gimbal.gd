@@ -28,8 +28,9 @@ func _input(event):
 			if event.relative.x != 0:
 				rotate(Vector3.UP, -event.relative.x * mouse_sensitivity)
 		if event is InputEventMouseMotion:
-			if event.relative.y != 0:
-				rotate_object_local(Vector3.RIGHT, -event.relative.y * mouse_sensitivity)
+			var relative_y = event.relative.y
+			if relative_y != 0:
+				rotation.x = clamp(rotation.x - relative_y * mouse_sensitivity, -PI/2, -PI/8)
 	if Input.is_action_pressed("move_cam"):
 		if event is InputEventMouseMotion:
 			move.x -= event.relative.x * drag_speed
