@@ -399,10 +399,7 @@ public class Earcut
         return outerNode;
     }
 
-    static int CompareX(Node a, Node b)
-    {
-        return Math.Sign(a.x - b.x);
-    }
+    static int CompareX(Node a, Node b) => Math.Sign(a.x - b.x);
 
     // find a bridge between vertices that connects hole with an outer ring and and link it
     static void EliminateHole(Node hole, Node outerNode)
@@ -632,31 +629,19 @@ public class Earcut
     }
 
     // check if a point lies within a convex triangle
-    static bool PointInTriangle(double ax, double ay, double bx, double by, double cx, double cy, double px, double py)
-    {
-        return (cx - px) * (ay - py) - (ax - px) * (cy - py) >= 0 &&
+    static bool PointInTriangle(double ax, double ay, double bx, double by, double cx, double cy, double px, double py) => (cx - px) * (ay - py) - (ax - px) * (cy - py) >= 0 &&
                (ax - px) * (by - py) - (bx - px) * (ay - py) >= 0 &&
                (bx - px) * (cy - py) - (cx - px) * (by - py) >= 0;
-    }
 
     // check if a diagonal between two polygon nodes is valid (lies in polygon interior)
-    static bool IsValidDiagonal(Node a, Node b)
-    {
-        return a.next.i != b.i && a.prev.i != b.i && !IntersectsPolygon(a, b) &&
+    static bool IsValidDiagonal(Node a, Node b) => a.next.i != b.i && a.prev.i != b.i && !IntersectsPolygon(a, b) &&
                LocallyInside(a, b) && LocallyInside(b, a) && MiddleInside(a, b);
-    }
 
     // signed area of a triangle
-    static double Area(Node p, Node q, Node r)
-    {
-        return (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
-    }
+    static double Area(Node p, Node q, Node r) => (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
 
     // check if two points are equal
-    static bool Equals(Node p1, Node p2)
-    {
-        return p1.x == p2.x && p1.y == p2.y;
-    }
+    static bool Equals(Node p1, Node p2) => p1.x == p2.x && p1.y == p2.y;
 
     // check if two segments intersect
     static bool Intersects(Node p1, Node q1, Node p2, Node q2)
@@ -690,12 +675,9 @@ public class Earcut
     }
 
     // check if a polygon diagonal is locally inside the polygon
-    static bool LocallyInside(Node a, Node b)
-    {
-        return Area(a.prev, a, a.next) < 0 ?
+    static bool LocallyInside(Node a, Node b) => Area(a.prev, a, a.next) < 0 ?
             Area(a, b, a.next) >= 0 && Area(a, a.prev, b) >= 0 :
             Area(a, b, a.prev) < 0 || Area(a, a.next, b) < 0;
-    }
 
     // check if the middle point of a polygon diagonal is inside the polygon
     static bool MiddleInside(Node a, Node b)

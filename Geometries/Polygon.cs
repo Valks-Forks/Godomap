@@ -10,9 +10,7 @@ public class Polygon: IGeometry {
         this.InnerRings = el.Skip(1).Select(innerRing => new PolygonRing(innerRing)).ToArray();
     }
 
-    public void InitFromGeojson(string path) {
-        throw new NotImplementedException();
-    }
+    public void InitFromGeojson(string path) => throw new NotImplementedException();
 
 }
 
