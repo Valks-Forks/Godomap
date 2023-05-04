@@ -1,9 +1,7 @@
-using System.Linq;
-using System;
-using Godot;
-
-namespace GodotMap {
-    namespace Geometries {
+namespace GodotMap
+{
+    namespace Geometries
+    {
         public class Polygon: IGeometry {
 
             public PolygonRing OuterRing;

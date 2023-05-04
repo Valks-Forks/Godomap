@@ -1,10 +1,10 @@
-using Godot;
-using System.Linq;
 using System.Collections.Generic;
 
-namespace GodotMap {
-	namespace Graphics {
-		public partial class Polygon : MeshInstance3D
+namespace GodotMap
+{
+    namespace Graphics
+    {
+        public partial class Polygon : MeshInstance3D
 		{
 			public static Vector3[] Tesselate(GodotMap.Geometries.Polygon polygon) {
 				var res = new List<Vector3>();

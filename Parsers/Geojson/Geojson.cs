@@ -1,9 +1,9 @@
 using System.Text.Json.Serialization;
 using System.Text.Json;
-using Godot;
 
-namespace GeojsonParser {
-	public class Geojson {
+namespace GeojsonParser
+{
+    public class Geojson {
 		[JsonPropertyName("type")]
 		public string Type { get; set; }
 

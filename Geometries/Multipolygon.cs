@@ -1,8 +1,7 @@
-using Godot;
-using System.Linq;
-
-namespace GodotMap {
-    namespace Geometries {
+namespace GodotMap
+{
+    namespace Geometries
+    {
         public partial class MultiPolygon: MeshInstance3D {
             public Polygon[] Parts;
 

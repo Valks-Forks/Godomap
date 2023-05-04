@@ -1,7 +1,7 @@
-using System;
-
-namespace GodotMap {
-    namespace Geometries {
+namespace GodotMap
+{
+    namespace Geometries
+    {
         public interface IGeometry {
         }
     }
