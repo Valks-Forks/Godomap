@@ -7,22 +7,22 @@ public partial class Polygon : MeshInstance3D
 	public static Vector3[] Tesselate(GodotMap.Geometries.Polygon polygon) {
 		var res = new List<Vector3>();
 		var innerRings = polygon.InnerRings;
-		var nbInnerRings = innerRings.Count();
+		var nbInnerRings = innerRings.Length;
 
 		var vertices = new List<double>();
 		var innerRingIndices = new int[nbInnerRings];
 		var outerRingVertices = polygon.OuterRing.Vertices;
-		var nbOuterRingVertices = outerRingVertices.Count();
+		var nbOuterRingVertices = outerRingVertices.Length;
 		for (var j = 0; j < nbOuterRingVertices; j++) {
 			var outerRingVertex = outerRingVertices[j];
 			vertices.Add(outerRingVertex.X);
 			vertices.Add(outerRingVertex.Y);
 		}
 		var innerRingCurrentIndex = nbOuterRingVertices;
-		for (var j = 0; j < innerRings.Count(); j++) {
+		for (var j = 0; j < innerRings.Length; j++) {
 			innerRingIndices[j] = innerRingCurrentIndex;
 			var innerRingVertices = innerRings[j].Vertices;
-			var nbInnerRingVertices = innerRingVertices.Count();
+			var nbInnerRingVertices = innerRingVertices.Length;
 			for (var k = 0; k < nbInnerRingVertices; k++) {
 				var innerRingVertex = innerRingVertices[k];
 				vertices.Add(innerRingVertex.X);
@@ -32,7 +32,7 @@ public partial class Polygon : MeshInstance3D
 		}
 
 		var connectivity = EarcutNet.Earcut.Tessellate(vertices, innerRingIndices);
-		for (var i = 0; i < connectivity.Count(); i++) {
+		for (var i = 0; i < connectivity.Count; i++) {
 			res.Insert(0, new Vector3((float) vertices[(connectivity[i]*2+1)], 0, (float) vertices[connectivity[i]*2]));
 		}
 		return res.ToArray();
