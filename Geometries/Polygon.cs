@@ -2,8 +2,8 @@ namespace GodotMap.Geometries;
 
 public class Polygon : IGeometry
 {
-    public PolygonRing OuterRing;
-    public PolygonRing[] InnerRings;
+    public PolygonRing OuterRing { get; set; }
+    public PolygonRing[] InnerRings { get; set; }
 
     public Polygon(double[][][] el)
     {

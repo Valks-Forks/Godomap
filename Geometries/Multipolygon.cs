@@ -2,7 +2,7 @@ namespace GodotMap.Geometries;
 
 public partial class MultiPolygon : MeshInstance3D
 {
-    public Polygon[] Parts;
+    public Polygon[] Parts { get; set; }
 
     public MultiPolygon(GeojsonParser.MultiPolygon geometry)
     {
