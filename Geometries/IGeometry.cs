@@ -1,8 +1,4 @@
-namespace GodotMap
-{
-    namespace Geometries
-    {
-        public interface IGeometry {
-        }
-    }
+namespace GodotMap.Geometries;
+
+public interface IGeometry {
 }

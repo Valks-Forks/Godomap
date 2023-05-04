@@ -1,10 +1,9 @@
 using System.Text.Json.Serialization;
 
-namespace GeojsonParser
-{
-    public class MultiPolygon: Geometry {
+namespace GeojsonParser;
 
-		[JsonPropertyName("coordinates")]
-		public double[][][][] Parts { get; set; }
-	}
+public class MultiPolygon: Geometry {
+
+    [JsonPropertyName("coordinates")]
+    public double[][][][] Parts { get; set; }
 }
