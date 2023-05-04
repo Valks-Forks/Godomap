@@ -1,6 +1,6 @@
-using System.Collections.Generic;
-
 namespace GodotMap.Graphics;
+
+using System.Collections.Generic;
 
 public partial class Polygon : MeshInstance3D
 {

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿namespace EarcutNet;
 
-namespace EarcutNet;
+using System.Collections.Generic;
 
 public class Earcut
 {

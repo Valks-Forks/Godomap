@@ -1,7 +1,7 @@
+namespace GeojsonParser;
+
 using System.Text.Json;
 using System.Text.Json.Serialization;
-
-namespace GeojsonParser;
 
 public class Geojson
 {

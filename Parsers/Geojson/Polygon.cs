@@ -1,6 +1,6 @@
-using System.Text.Json.Serialization;
-
 namespace GeojsonParser;
+
+using System.Text.Json.Serialization;
 
 public class Polygon : Geometry
 {
