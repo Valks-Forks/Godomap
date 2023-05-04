@@ -67,7 +67,7 @@ public class Earcut
     }
 
     // Creates a circular doubly linked list from polygon points in the specified winding order.
-    static Node LinkedList(IList<double> data, int start, int end, bool clockwise)
+    private static Node LinkedList(IList<double> data, int start, int end, bool clockwise)
     {
         var last = default(Node);
 
@@ -96,7 +96,7 @@ public class Earcut
     }
 
     // eliminate colinear or duplicate points
-    static Node FilterPoints(Node start, Node end = null)
+    private static Node FilterPoints(Node start, Node end = null)
     {
         if (start == null)
         {
@@ -122,7 +122,6 @@ public class Earcut
                 }
 
                 again = true;
-
             }
             else
             {
@@ -134,7 +133,7 @@ public class Earcut
     }
 
     // main ear slicing loop which triangulates a polygon (given as a linked list)
-    static void EarcutLinked(Node ear, IList<int> triangles, double minX, double minY, double invSize, int pass = 0)
+    private static void EarcutLinked(Node ear, IList<int> triangles, double minX, double minY, double invSize, int pass = 0)
     {
         if (ear == null)
         {
@@ -203,7 +202,7 @@ public class Earcut
     }
 
     // check whether a polygon node forms a valid ear with adjacent nodes
-    static bool IsEar(Node ear)
+    private static bool IsEar(Node ear)
     {
         var a = ear.prev;
         var b = ear;
@@ -231,7 +230,7 @@ public class Earcut
         return true;
     }
 
-    static bool IsEarHashed(Node ear, double minX, double minY, double invSize)
+    private static bool IsEarHashed(Node ear, double minX, double minY, double invSize)
     {
         var a = ear.prev;
         var b = ear;
@@ -307,7 +306,7 @@ public class Earcut
     }
 
     // go through all polygon nodes and cure small local self-intersections
-    static Node CureLocalIntersections(Node start, IList<int> triangles)
+    private static Node CureLocalIntersections(Node start, IList<int> triangles)
     {
         var p = start;
         do
@@ -317,7 +316,6 @@ public class Earcut
 
             if (!Equals(a, b) && Intersects(a, p, p.next, b) && LocallyInside(a, b) && LocallyInside(b, a))
             {
-
                 triangles.Add(a.i / 2);
                 triangles.Add(p.i / 2);
                 triangles.Add(b.i / 2);
@@ -335,7 +333,7 @@ public class Earcut
     }
 
     // try splitting polygon into two and triangulate them independently
-    static void SplitEarcut(Node start, IList<int> triangles, double minX, double minY, double invSize)
+    private static void SplitEarcut(Node start, IList<int> triangles, double minX, double minY, double invSize)
     {
         // look for a valid diagonal that divides the polygon into two
         var a = start;
@@ -365,7 +363,7 @@ public class Earcut
     }
 
     // link every hole into the outer loop, producing a single-ring polygon without holes
-    static Node EliminateHoles(IList<double> data, IList<int> holeIndices, Node outerNode)
+    private static Node EliminateHoles(IList<double> data, IList<int> holeIndices, Node outerNode)
     {
         var queue = new List<Node>();
 
@@ -396,10 +394,10 @@ public class Earcut
         return outerNode;
     }
 
-    static int CompareX(Node a, Node b) => Math.Sign(a.x - b.x);
+    private static int CompareX(Node a, Node b) => Math.Sign(a.x - b.x);
 
     // find a bridge between vertices that connects hole with an outer ring and and link it
-    static void EliminateHole(Node hole, Node outerNode)
+    private static void EliminateHole(Node hole, Node outerNode)
     {
         outerNode = FindHoleBridge(hole, outerNode);
         if (outerNode != null)
@@ -410,7 +408,7 @@ public class Earcut
     }
 
     // David Eberly's algorithm for finding a bridge between hole and outer polygon
-    static Node FindHoleBridge(Node hole, Node outerNode)
+    private static Node FindHoleBridge(Node hole, Node outerNode)
     {
         var p = outerNode;
         var hx = hole.x;
@@ -472,7 +470,6 @@ public class Earcut
         {
             if (hx >= p.x && p.x >= mx && hx != p.x && PointInTriangle(hy < my ? hx : qx, hy, mx, my, hy < my ? qx : hx, hy, p.x, p.y))
             {
-
                 tan = Math.Abs(hy - p.y) / (hx - p.x); // tangential
 
                 if ((tan < tanMin || (tan == tanMin && p.x > m.x)) && LocallyInside(p, hole))
@@ -489,7 +486,7 @@ public class Earcut
     }
 
     // interlink polygon nodes in z-order
-    static void IndexCurve(Node start, double minX, double minY, double invSize)
+    private static void IndexCurve(Node start, double minX, double minY, double invSize)
     {
         Node p = start;
         do
@@ -509,7 +506,7 @@ public class Earcut
 
     // Simon Tatham's linked list merge sort algorithm
     // http://www.chiark.greenend.org.uk/~sgtatham/algorithms/listsort.html
-    static Node SortLinked(Node list)
+    private static Node SortLinked(Node list)
     {
         int i;
         Node p;
@@ -546,7 +543,6 @@ public class Earcut
 
                 while (pSize > 0 || (qSize > 0 && q != null))
                 {
-
                     if (pSize != 0 && (qSize == 0 || q == null || p.z <= q.z))
                     {
                         e = p;
@@ -578,14 +574,13 @@ public class Earcut
 
             tail.nextZ = null;
             inSize *= 2;
-
         } while (numMerges > 1);
 
         return list;
     }
 
     // z-order of a point given coords and inverse of the longer side of data bbox
-    static int ZOrder(double x, double y, double minX, double minY, double invSize)
+    private static int ZOrder(double x, double y, double minX, double minY, double invSize)
     {
         // coords are transformed into non-negative 15-bit integer range
         int intX = (int)(32767 * (x - minX) * invSize);
@@ -605,7 +600,7 @@ public class Earcut
     }
 
     // find the leftmost node of a polygon ring
-    static Node GetLeftmost(Node start)
+    private static Node GetLeftmost(Node start)
     {
         Node p = start;
         Node leftmost = start;
@@ -623,22 +618,22 @@ public class Earcut
     }
 
     // check if a point lies within a convex triangle
-    static bool PointInTriangle(double ax, double ay, double bx, double by, double cx, double cy, double px, double py) => (cx - px) * (ay - py) - (ax - px) * (cy - py) >= 0 &&
+    private static bool PointInTriangle(double ax, double ay, double bx, double by, double cx, double cy, double px, double py) => (cx - px) * (ay - py) - (ax - px) * (cy - py) >= 0 &&
                (ax - px) * (by - py) - (bx - px) * (ay - py) >= 0 &&
                (bx - px) * (cy - py) - (cx - px) * (by - py) >= 0;
 
     // check if a diagonal between two polygon nodes is valid (lies in polygon interior)
-    static bool IsValidDiagonal(Node a, Node b) => a.next.i != b.i && a.prev.i != b.i && !IntersectsPolygon(a, b) &&
+    private static bool IsValidDiagonal(Node a, Node b) => a.next.i != b.i && a.prev.i != b.i && !IntersectsPolygon(a, b) &&
                LocallyInside(a, b) && LocallyInside(b, a) && MiddleInside(a, b);
 
     // signed area of a triangle
-    static double Area(Node p, Node q, Node r) => (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
+    private static double Area(Node p, Node q, Node r) => (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
 
     // check if two points are equal
-    static bool Equals(Node p1, Node p2) => p1.x == p2.x && p1.y == p2.y;
+    private static bool Equals(Node p1, Node p2) => p1.x == p2.x && p1.y == p2.y;
 
     // check if two segments intersect
-    static bool Intersects(Node p1, Node q1, Node p2, Node q2)
+    private static bool Intersects(Node p1, Node q1, Node p2, Node q2)
     {
         if ((Equals(p1, q1) && Equals(p2, q2)) ||
             (Equals(p1, q2) && Equals(p2, q1)))
@@ -651,7 +646,7 @@ public class Earcut
     }
 
     // check if a polygon diagonal intersects any polygon segments
-    static bool IntersectsPolygon(Node a, Node b)
+    private static bool IntersectsPolygon(Node a, Node b)
     {
         Node p = a;
         do
@@ -669,12 +664,12 @@ public class Earcut
     }
 
     // check if a polygon diagonal is locally inside the polygon
-    static bool LocallyInside(Node a, Node b) => Area(a.prev, a, a.next) < 0 ?
+    private static bool LocallyInside(Node a, Node b) => Area(a.prev, a, a.next) < 0 ?
             Area(a, b, a.next) >= 0 && Area(a, a.prev, b) >= 0 :
             Area(a, b, a.prev) < 0 || Area(a, a.next, b) < 0;
 
     // check if the middle point of a polygon diagonal is inside the polygon
-    static bool MiddleInside(Node a, Node b)
+    private static bool MiddleInside(Node a, Node b)
     {
         var p = a;
         var inside = false;
@@ -696,7 +691,7 @@ public class Earcut
 
     // link two polygon vertices with a bridge; if the vertices belong to the same ring, it splits polygon into two;
     // if one belongs to the outer ring and another to a hole, it merges it into a single ring
-    static Node SplitPolygon(Node a, Node b)
+    private static Node SplitPolygon(Node a, Node b)
     {
         var a2 = new Node(a.i, a.x, a.y);
         var b2 = new Node(b.i, b.x, b.y);
@@ -719,7 +714,7 @@ public class Earcut
     }
 
     // create a node and optionally link it with previous one (in a circular doubly linked list)
-    static Node InsertNode(int i, double x, double y, Node last)
+    private static Node InsertNode(int i, double x, double y, Node last)
     {
         var p = new Node(i, x, y);
 
@@ -727,7 +722,6 @@ public class Earcut
         {
             p.prev = p;
             p.next = p;
-
         }
         else
         {
@@ -739,7 +733,7 @@ public class Earcut
         return p;
     }
 
-    static void RemoveNode(Node p)
+    private static void RemoveNode(Node p)
     {
         p.next.prev = p.prev;
         p.prev.next = p.next;
@@ -755,7 +749,7 @@ public class Earcut
         }
     }
 
-    class Node
+    private class Node
     {
         public int i;
         public double x;
@@ -796,7 +790,7 @@ public class Earcut
         }
     }
 
-    static double SignedArea(IList<double> data, int start, int end)
+    private static double SignedArea(IList<double> data, int start, int end)
     {
         var sum = default(double);
 
