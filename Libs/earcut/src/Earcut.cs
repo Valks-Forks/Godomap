@@ -103,10 +103,7 @@ public class Earcut
             return start;
         }
 
-        if (end == null)
-        {
-            end = start;
-        }
+        end ??= start;
 
         var p = start;
         bool again;
@@ -497,10 +494,7 @@ public class Earcut
         Node p = start;
         do
         {
-            if (p.z == null)
-            {
-                p.z = ZOrder(p.x, p.y, minX, minY, invSize);
-            }
+            p.z ??= ZOrder(p.x, p.y, minX, minY, invSize);
 
             p.prevZ = p.prev;
             p.nextZ = p.next;
